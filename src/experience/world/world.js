@@ -3,6 +3,9 @@ import { ThirdPersonCamera } from "../utils/third-person-camera";
 import Environment from "./enviroment";
 import Floor from "./floor";
 import Player from './player';
+import Wall from './wall';
+import * as THREE from 'three';
+
 
 export default class World {
     constructor() {
@@ -16,18 +19,19 @@ export default class World {
             this.floor = new Floor();
             this.player = new Player();
             this.enviroment = new Environment();
-            console.log(this.experience.camera);
-            this.thirdPersonCamera = new ThirdPersonCamera({model: this.player.model, camera: this.experience.camera});
+            // this.thirdPersonCamera = new ThirdPersonCamera({ model: this.player.model, camera: this.experience.camera });
+            this.wall = new Wall(new THREE.Vector3(-2, 0.5, -2));
+            this.wall = new Wall(new THREE.Vector3(2, 0.5, 2));
         })
     }
 
     update() {
-        if(this.player){
-            this.player.update(); 
+        if (this.player) {
+            this.player.update();
         }
 
-        if(this.thirdPersonCamera){
-            this.thirdPersonCamera.update();    
-        }
+        // if (this.thirdPersonCamera) {
+        //     this.thirdPersonCamera.update();
+        // }
     }
 }

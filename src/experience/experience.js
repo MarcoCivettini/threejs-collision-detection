@@ -7,6 +7,7 @@ import World from "./world/world";
 import Resources from "./utils/resources";
 import sources from './sources.js';
 import Debug from "./utils/debug";
+import PhysicsWorld from "./world/physics-word";
 
 let instance = null;
 
@@ -29,6 +30,7 @@ export default class Experience {
         this.camera = new Camera();
         this.renderer = new Renderer()
         this.world = new World();
+        this.physicsWold = new PhysicsWorld();
 
         this.sizes.on('resize', () => {
             this.resize();
@@ -58,6 +60,7 @@ export default class Experience {
         this.camera.update()
         this.world.update();
         this.renderer.update();
+        this.physicsWold.update();
     }
 
     destroy() {
