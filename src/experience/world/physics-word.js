@@ -12,19 +12,6 @@ export default class PhysicsWorld {
         this.addDefaultContactMaterial();
         this.objectsToUpdate = [];
 
-
-        // TODO move to floor class
-        const floorShape = new CANNON.Plane();
-        const floorBody = new CANNON.Body()
-        floorBody.mass = 0;
-        floorBody.quaternion.setFromAxisAngle(
-            new CANNON.Vec3(- 1, 0, 0),
-            Math.PI / 2,
-        )
-        floorBody.addShape(floorShape);
-
-        this.world.addBody(floorBody);
-
     }
 
     update() {

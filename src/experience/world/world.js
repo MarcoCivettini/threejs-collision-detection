@@ -19,7 +19,7 @@ export default class World {
             this.floor = new Floor();
             this.player = new Player();
             this.enviroment = new Environment();
-            // this.thirdPersonCamera = new ThirdPersonCamera({ model: this.player.model, camera: this.experience.camera });
+            this.thirdPersonCamera = new ThirdPersonCamera({ model: this.player.model, camera: this.experience.camera });
             this.wall = new Wall(new THREE.Vector3(-2, 0.5, -2));
             this.wall = new Wall(new THREE.Vector3(2, 0.5, 2));
         })
@@ -30,8 +30,8 @@ export default class World {
             this.player.update();
         }
 
-        // if (this.thirdPersonCamera) {
-        //     this.thirdPersonCamera.update();
-        // }
+        if (this.thirdPersonCamera) {
+            this.thirdPersonCamera.update();
+        }
     }
 }

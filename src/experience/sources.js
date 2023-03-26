@@ -20,5 +20,10 @@ export default[
         name: 'grassNormalTexture',
         type: 'texture',
         path: '/textures/dirt/normal.jpg'
-    }
+    },
+    {
+        name: 'floorModel',
+        type: 'gltfModel',
+        path: '/models/MapTutorial.glb'
+    },
 ]

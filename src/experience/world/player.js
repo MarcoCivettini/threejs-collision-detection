@@ -27,7 +27,7 @@ export default class Player {
     createPlayer(dimension) {
         this.model = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 'darkgreen' }))
         this.model.scale.set(dimension.x, dimension.y, dimension.z);
-        this.model.position.y = 0.5;
+        this.model.position.y = 5.5;
         
         this.model.castShadow = true;
 
@@ -50,7 +50,7 @@ export default class Player {
         const {x,y,z} = mesh.scale;
         const shape = new CANNON.Box(new CANNON.Vec3(x/2,y/2,z/2));
         const body = new CANNON.Body({
-            mass: 1,
+            mass: 20,
             shape,
             // material: this.physicsWord.world.defaultMaterial
         })
