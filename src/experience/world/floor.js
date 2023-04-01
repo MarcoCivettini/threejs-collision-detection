@@ -37,6 +37,14 @@ export default class Floor {
         // const simplifiedGeometry = simplifyModifier.modify(mesh.geometry, 1);
         console.log(mesh.geometry.index.array.length);
         const shape = this.createShapeFromGeometry(mesh);
+        
+        // this.createShapeFromGeometry1(this.model.children[2]);
+        // for(let i = 1; i < this.model.children.length; i++){
+        //     this.terrainObjectToShape(this.model.children[i]);
+
+        // }
+
+        // this.terrainObjectToShape(this.model.children[4]);
 
         const body = new CANNON.Body({
             mass: 0,
@@ -55,9 +63,38 @@ export default class Floor {
 
 
 
-        body.addShape(shape, new CANNON.Vec3());
+        body.addShape(shape);
         this.physicsWord.world.addBody(body);
 
+    }
+
+    terrainObjectToShape(mesh) {
+        // console.log(mesh);
+        // if(!mesh?.childrend?.length){return;}
+        let geometry = null;
+        if (mesh.geometry != null) {
+            geometry = mesh.geometry;
+
+        } else {
+            geometry = mesh.children[0].geometry;
+        }
+
+        if(geometry == null){
+            console.log('errore', mesh);
+            return;}
+        // console.log('pos', geometry)
+        // console.log('normal', geometry.attributes.normal.array[0])
+        const shape = this.createShapeFromGeometry(mesh)
+        const body = new CANNON.Body({
+            mass: 0,
+            shape,
+            // material: this.physicsWord.world.defaultMaterial
+        });
+        body.position.copy(mesh.position);
+        body.quaternion.copy(mesh.quaternion);
+        this.physicsWord.world.addBody(body);
+
+        this.scene.add(mesh);
     }
 
     createShapeFromGeometry(mesh) {
@@ -76,7 +113,7 @@ export default class Floor {
                 const intersects = raycaster.intersectObject(mesh, false);
 
                 if (intersects.length > 0) {
-                    matrix[x + dimension][-z + dimension] = (intersects[0].point.y * yScale) + 6;
+                    matrix[x + dimension][-z + dimension] = (intersects[0].point.y * yScale) + 5.85;
                 } else {
                     matrix[x + dimension][-z + dimension] = 0;
                 }
@@ -88,35 +125,38 @@ export default class Floor {
         return terrainShape;
     }
 
-    // createShapeFromGeometry(geometry) {
-    //     // Get the vertices and indices of the geometry
-    //     const positions = geometry.attributes.position.array;
-    //     console.log('pos',geometry.attributes.position.array[0])
-    //     console.log('normal',geometry.attributes.normal.array[0])
+    createShapeFromGeometry1(geometry) {
+                // const simplifyModifier = new SimplifyModifier();
+        // const simplifiedGeometry = simplifyModifier.modify(mesh.geometry, 1);
 
-    //     const indices = geometry.index.array;
+        // Get the vertices and indices of the geometry
+        const positions = geometry.attributes.position.array;
+        // console.log('pos', geometry.attributes.position.array[0])
+        // console.log('normal', geometry.attributes.normal.array[0])
 
-    //     // Convert the positions and indices to cannon-es vectors and arrays
-    //     const vertices = [];
-    //     const dimension = 1;
-    //     for (let i = 0; i < positions.length; i += 3) {
-    //         const vertex = new CANNON.Vec3(positions[i] * dimension, positions[i +1] * dimension, positions[i + 2] * dimension);
-    //         vertices.push(vertex);
-    //     }
-    //     const faces = [];
-    //     for (let i = 0; i < indices.length; i += 3) {
-    //         const face = [indices[i], indices[i + 1], indices[i + 2]];
-    //         faces.push(face);
-    //     }
+        const indices = geometry.index.array;
 
-    //     console.log(vertices, faces);
+        // Convert the positions and indices to cannon-es vectors and arrays
+        const vertices = [];
+        const scale = 15;
+        for (let i = 0; i < positions.length; i += 3) {
+            const vertex = new CANNON.Vec3(positions[i], positions[i + 1], positions[i + 2]);
+            vertices.push(vertex);
+        }
+        const faces = [];
+        for (let i = 0; i < indices.length; i += 3) {
+            const face = [indices[i], indices[i + 1], indices[i + 2]];
+            faces.push(face);
+        }
+
+        // console.log(vertices, faces);
 
 
-    //     // Create a CANNON.ConvexPolyhedron shape from the vertices and faces
-    //     const shape = new CANNON.ConvexPolyhedron({ vertices: vertices, faces: faces });
+        // Create a CANNON.ConvexPolyhedron shape from the vertices and faces
+        const shape = new CANNON.ConvexPolyhedron({ vertices: vertices, faces: faces });
 
-    //     return shape;
-    // }
+        return shape;
+    }
 
 
 
